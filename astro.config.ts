@@ -1,7 +1,7 @@
 import { defineConfig, type AstroUserConfig } from 'astro/config';
+import vercelStatic from '@astrojs/vercel/static';
 import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
-import vercel from "@astrojs/vercel/serverless";
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
@@ -19,12 +19,13 @@ const getBlogRoutesRedirect = async () => {
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://noghartt.dev',
+  site: 'https://whiteroom.vercel.app/',
   integrations: [
     sitemap(),
     react(),
   ],
   output: "static",
+  adapter: vercelStatic(),
   markdown: {
     syntaxHighlight: false,
     remarkPlugins: [
