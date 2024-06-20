@@ -5,5 +5,5 @@ export const SITE = {
   author: '@Kindjotario',
 }
 
-export const GITHUB_REPO_URL = 'placeholder';
+export const GITHUB_REPO_URL = 'https://github.com/kingjotaro';
 export const TWITTER_URL = 'https://x.com/KindJotario';
