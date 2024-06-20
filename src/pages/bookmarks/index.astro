@@ -13,8 +13,8 @@ const bookmarksSorted = bookmarksData.sort((a, b) =>
   Math.floor(Number(a.savedAt) / 1000)
 );
 
-const groupByMonth = (bookmarks) => {
-  const grouped = bookmarks.reduce((acc, bookmark) => {
+const groupByMonth = (bookmarks: any[]) => {
+  const grouped = bookmarks.reduce((acc: { [x: string]: any[]; }, bookmark: { savedAt: string | number | Date | dayjs.Dayjs | null | undefined; }) => {
     const month = dayjs(bookmark.savedAt).format('MMMM [/] YYYY');
     if (!acc[month]) {
       acc[month] = [];
@@ -39,7 +39,7 @@ const bookmarksGroupedByMonth = groupByMonth(bookmarksSorted);
         <div class="description">
           <h3>{month}</h3>
           <ul>
-            {bookmarks.map((bookmark) => (
+            {bookmarks.map((bookmark: { url: string; title: unknown; }) => (
               <li>
                 <Link href={bookmark.url} target="_blank" rel="noopener">
                   {bookmark.title}
