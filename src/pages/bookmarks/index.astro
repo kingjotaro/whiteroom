@@ -1,0 +1,108 @@
+---
+import dayjs from 'dayjs';
+
+import Layout from "../../layout/Layout.astro";
+import GoBackButton from '../../components/GoBackButton.astro';
+import Link from "../../components/Link.astro";
+
+import bookmarksJson from './_bookmarks.json';
+
+const bookmarksData = bookmarksJson.data;
+const bookmarksSorted = bookmarksData.sort((a, b) =>
+  Math.floor(Number(b.savedAt) / 1000) -
+  Math.floor(Number(a.savedAt) / 1000)
+);
+
+const groupByMonth = (bookmarks) => {
+  const grouped = bookmarks.reduce((acc, bookmark) => {
+    const month = dayjs(bookmark.savedAt).format('MMMM [/] YYYY');
+    if (!acc[month]) {
+      acc[month] = [];
+    }
+    acc[month].push(bookmark);
+    return acc;
+  }, {});
+  return grouped;
+};
+
+const bookmarksGroupedByMonth = groupByMonth(bookmarksSorted);
+---
+
+<Layout>
+  <GoBackButton />
+  <section class="posts">
+    <section>
+      <h2>bookmarks.</h2>
+      <p>Last update: {dayjs(bookmarksJson.lastUpdate).format('DD[/]MM[/]YYYY HH:mm')}</p>
+    </section>
+    <p>
+      Feel free to follow this list via RSS too, you can find it <Link href='/bookmarks/rss.xml'>here</Link>.
+    </p>
+    <section class="bookmarks">
+      {Object.entries(bookmarksGroupedByMonth).map(([month, bookmarks]) => (
+        <div class="description">
+          <h3>{month}</h3>
+          <ul>
+            {bookmarks.map((bookmark) => (
+              <li>
+                <Link href={bookmark.url} target="_blank" rel="noopener">
+                  {bookmark.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  </section>
+</Layout>
+
+<style>
+  .description {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacing-2x);
+  }
+
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4x);
+  }
+
+  .posts ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+  }
+
+  .posts ul li {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: var(--spacing-8x);
+  }
+
+  .posts :global(a) {
+    flex: 1;
+    overflow-wrap: anywhere;
+  }
+
+  @media screen and (max-width: 425px) {
+    .posts ul {
+      gap: var(--spacing-2x);
+    }
+
+    .posts ul li {
+      flex-direction: column;
+    }
+  }
+
+  .bookmarks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4x);
+  }
+</style>
+
+

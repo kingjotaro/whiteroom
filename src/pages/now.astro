@@ -1,0 +1,31 @@
+---
+import Layout from "../layout/Layout.astro";
+import GoBackButton from '../components/GoBackButton.astro';
+---
+
+<Layout>
+  <GoBackButton />
+  <section>
+   "hello worldo"
+    </section>
+  </article>
+</Layout>
+
+<style>
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2x);
+  }
+
+  article section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+  }
+
+  li {
+    list-style-type: disc;
+    margin-left: var(--spacing-2x);
+  }
+</style>
